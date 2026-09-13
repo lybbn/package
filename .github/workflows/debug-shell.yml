@@ -1,4 +1,4 @@
-# 交互式调试 Shell：通过 tmate SSH 进入 GitHub Actions runner
+# 交互式调试 Shell：通过 upterm SSH 进入 GitHub Actions runner
 # 触发方式：Actions 页面手动运行（workflow_dispatch）
 name: macOS Debug Terminal
 
@@ -13,7 +13,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      - name: Setup upterm session
+        uses: owenthereal/action-upterm@v1
         with:
-          limit-access-to-actor: true # 仅允许仓库所有者账号连接，安全
+          limit-access-to-actor: true # 仅允许触发者本人连接（用 GitHub 账号绑定的 SSH 公钥鉴权）
+          wait-timeout-minutes: 30 # 无人连接 30 分钟后自动关闭，避免空耗额度
